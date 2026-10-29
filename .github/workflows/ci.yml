@@ -1,0 +1,46 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Engine and API tests
+        run: uv sync --frozen && uv run pytest -q
+      - name: Generated TypeScript types match the API schema
+        run: cd web && npm ci && npm run gen:types && git diff --exit-code src/api/schema.d.ts
+      - name: Build web (the committed web/dist must equal a fresh build)
+        run: cd web && npm run build && git diff --exit-code -- dist
+      - name: Browser tests (desktop + 390 px)
+        run: |
+          cd web && npx playwright install --with-deps chromium && cd ..
+          uv run uvicorn rebalancer.api.app:app --port 8123 & SERVER=$!
+          sleep 5
+          (cd web && npx playwright test --reporter=line); STATUS=$?
+          kill $SERVER; pkill -f uvicorn || true
+          exit $STATUS
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t rebalancer .
+      - name: Smoke test the container (health, SPA deep link, API)
+        run: |
+          docker run -d -p 8000:8000 --name app rebalancer
+          for i in $(seq 1 30); do curl -fs localhost:8000/api/health && break; sleep 1; done
+          curl -fs localhost:8000/api/health | grep '"web":true'
+          curl -fs -o /dev/null localhost:8000/klient/Klient%20B
+          curl -fs localhost:8000/api/demo | grep -q '"recommended":"WAIT_TAX_P"'
+          docker logs app | tail -5

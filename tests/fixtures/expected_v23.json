@@ -1,0 +1,19 @@
+{
+ "_provenance": "Expected results of the engine rules on the assignment data, each independently recalculated by a separate implementation of the same rules before being pinned here. Never computed by the code under test.",
+ "clients": {
+  "Klient A": {"verified": "independent recalculation", "recommended": "NOW_P", "outcome": "execute_now", "total": "5537.89",
+   "commissions": "2697.06", "fx": "2840.83",
+   "orders": [["2026-10-23", "SELL", "VWCE", 174], ["2026-10-23", "BUY", "EUNA", 5350], ["2026-11-10", "BUY", "EUNA", 5299]]},
+  "Klient B": {"verified": "independent recalculation", "recommended": "NOW_P", "outcome": "ensure_liquidity", "outcome_date": "2027-01-12",
+   "total": "10093.74", "commissions": "3209.30", "fx": "6884.44", "tax": "0",
+   "orders": [["2026-10-23", "SELL", "VWCE", 350], ["2026-10-23", "SELL", "EUNA", 5377], ["2026-12-01", "SELL", "VWCE", 38], ["2026-12-01", "SELL", "EUNA", 1382]]},
+  "Klient C": {"verified": "independent recalculation", "recommended": "BASE", "outcome": "no_action", "total": "0", "orders": []},
+  "Klient D": {"verified": "independent recalculation", "recommended": "NOW_P", "outcome": "execute_now", "total": "46545.37",
+   "commissions": "10687.38", "fx": "35857.99",
+   "orders": [["2026-10-23", "BUY", "VWCE", 726], ["2026-10-23", "BUY", "AVWS", 2100], ["2026-10-23", "BUY", "EUNA", 11702], ["2027-02-15", "BUY", "VWCE", 509], ["2027-02-15", "BUY", "EUNA", 7944]]},
+  "Klient E": {"verified": "independent recalculation", "recommended": "WAIT_TAX_P", "outcome": "wait", "outcome_date": "2026-11-23",
+   "total": "8647.20", "commissions": "6460.18", "fx": "2187.02", "tax": "0",
+   "now_p_total": "83636.17", "now_p_tax15": "74987.51", "now_p_tax23": "114980.86",
+   "orders": [["2026-10-23", "SELL", "VWCE", 58], ["2026-11-23", "SELL", "VWCE", 594], ["2026-11-23", "BUY", "EUNA", 16140], ["2026-11-24", "BUY", "IGLN", 144]]}
+ }
+}

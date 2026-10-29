@@ -1,0 +1,462 @@
+{
+ "_provenance": "Extracted from the golden valuation dataset: two independent derivations from the original workbook, reconciled with 172 checks and 0 mismatches. Expected values must never be computed by the code under test.",
+ "source_sha256": "b579ab23b24a71ecdb582359ce02707e271b736176d90e4c30712363c3d4bfed",
+ "valuation_date": "2026-10-23",
+ "fx": {
+  "CZK": "1",
+  "EUR": "24.3",
+  "USD": "21"
+ },
+ "counts": {
+  "instruments": 4,
+  "clients": 5,
+  "lots": 24,
+  "cash": 8,
+  "flows": 10
+ },
+ "clients": {
+  "Klient A": {
+   "tax_regime": "FO",
+   "securities_czk": "10177423.20",
+   "cash_czk": "90375.00",
+   "nav_czk": "10267798.20",
+   "values_czk": {
+    "VWCE": "7271775.00",
+    "AVWS": "1928934.00",
+    "EUNA": "976714.20",
+    "IGLN": "0.00",
+    "cash": "90375.00"
+   },
+   "weights_pct": {
+    "VWCE": "70.82117177",
+    "AVWS": "18.78624767",
+    "EUNA": "9.51240160",
+    "IGLN": "0.00000000",
+    "cash": "0.88017897"
+   },
+   "targets_pct": {
+    "VWCE": "60",
+    "AVWS": "20",
+    "EUNA": "20",
+    "IGLN": "0",
+    "cash": "0"
+   },
+   "deviations_pp": {
+    "VWCE": "10.82117177",
+    "AVWS": "-1.21375233",
+    "EUNA": "-10.48759840",
+    "IGLN": "0.00000000",
+    "cash": "0.88017897"
+   }
+  },
+  "Klient B": {
+   "tax_regime": "FO",
+   "securities_czk": "19119687.00",
+   "cash_czk": "739630.00",
+   "nav_czk": "19859317.00",
+   "values_czk": {
+    "VWCE": "7618050.00",
+    "AVWS": "1775844.00",
+    "EUNA": "7914753.00",
+    "IGLN": "1811040.00",
+    "cash": "739630.00"
+   },
+   "weights_pct": {
+    "VWCE": "38.36008056",
+    "AVWS": "8.94212021",
+    "EUNA": "39.85410475",
+    "IGLN": "9.11934685",
+    "cash": "3.72434762"
+   },
+   "targets_pct": {
+    "VWCE": "35",
+    "AVWS": "10",
+    "EUNA": "40",
+    "IGLN": "10",
+    "cash": "5"
+   },
+   "deviations_pp": {
+    "VWCE": "3.36008056",
+    "AVWS": "-1.05787979",
+    "EUNA": "-0.14589525",
+    "IGLN": "-0.88065315",
+    "cash": "-1.27565238"
+   }
+  },
+  "Klient C": {
+   "tax_regime": "FO",
+   "securities_czk": "6017922.00",
+   "cash_czk": "18000.00",
+   "nav_czk": "6035922.00",
+   "values_czk": {
+    "VWCE": "3047220.00",
+    "AVWS": "581742.00",
+    "EUNA": "1796256.00",
+    "IGLN": "592704.00",
+    "cash": "18000.00"
+   },
+   "weights_pct": {
+    "VWCE": "50.48474781",
+    "AVWS": "9.63799731",
+    "EUNA": "29.75943029",
+    "IGLN": "9.81960999",
+    "cash": "0.29821459"
+   },
+   "targets_pct": {
+    "VWCE": "50",
+    "AVWS": "10",
+    "EUNA": "30",
+    "IGLN": "10",
+    "cash": "0"
+   },
+   "deviations_pp": {
+    "VWCE": "0.48474781",
+    "AVWS": "-0.36200269",
+    "EUNA": "-0.24056971",
+    "IGLN": "-0.18039001",
+    "cash": "0.29821459"
+   }
+  },
+  "Klient D": {
+   "tax_regime": "s.r.o.",
+   "securities_czk": "6060541.50",
+   "cash_czk": "4500000.00",
+   "nav_czk": "10560541.50",
+   "values_czk": {
+    "VWCE": "3289612.50",
+    "AVWS": "918540.00",
+    "EUNA": "1852389.00",
+    "IGLN": "0.00",
+    "cash": "4500000.00"
+   },
+   "weights_pct": {
+    "VWCE": "31.15003620",
+    "AVWS": "8.69784944",
+    "EUNA": "17.54066304",
+    "IGLN": "0.00000000",
+    "cash": "42.61145132"
+   },
+   "targets_pct": {
+    "VWCE": "55",
+    "AVWS": "15",
+    "EUNA": "30",
+    "IGLN": "0",
+    "cash": "0"
+   },
+   "deviations_pp": {
+    "VWCE": "-23.84996380",
+    "AVWS": "-6.30215056",
+    "EUNA": "-12.45933696",
+    "IGLN": "0.00000000",
+    "cash": "42.61145132"
+   }
+  },
+  "Klient E": {
+   "tax_regime": "FO",
+   "securities_czk": "22048194.00",
+   "cash_czk": "52220.00",
+   "nav_czk": "22100414.00",
+   "values_czk": {
+    "VWCE": "12604410.00",
+    "AVWS": "3306744.00",
+    "EUNA": "4490640.00",
+    "IGLN": "1646400.00",
+    "cash": "52220.00"
+   },
+   "weights_pct": {
+    "VWCE": "57.03246102",
+    "AVWS": "14.96236224",
+    "EUNA": "20.31925737",
+    "IGLN": "7.44963420",
+    "cash": "0.23628517"
+   },
+   "targets_pct": {
+    "VWCE": "45",
+    "AVWS": "15",
+    "EUNA": "30",
+    "IGLN": "10",
+    "cash": "0"
+   },
+   "deviations_pp": {
+    "VWCE": "12.03246102",
+    "AVWS": "-0.03763776",
+    "EUNA": "-9.68074263",
+    "IGLN": "-2.55036580",
+    "cash": "0.23628517"
+   }
+  }
+ },
+ "lots": [
+  {
+   "client": "Klient A",
+   "ticker": "VWCE",
+   "purchase_date": "2021-03-15",
+   "units": "1500",
+   "purchase_price": "92.10",
+   "market_value_czk": "5194125.00",
+   "unrealised_gain_czk": "1837080.00",
+   "holding_days": "2048",
+   "three_year_anniversary": "2024-03-15"
+  },
+  {
+   "client": "Klient A",
+   "ticker": "VWCE",
+   "purchase_date": "2024-06-12",
+   "units": "600",
+   "purchase_price": "118.40",
+   "market_value_czk": "2077650.00",
+   "unrealised_gain_czk": "351378.00",
+   "holding_days": "863",
+   "three_year_anniversary": "2027-06-12"
+  },
+  {
+   "client": "Klient A",
+   "ticker": "AVWS",
+   "purchase_date": "2024-10-08",
+   "units": "6300",
+   "purchase_price": "10.20",
+   "market_value_czk": "1928934.00",
+   "unrealised_gain_czk": "367416.00",
+   "holding_days": "745",
+   "three_year_anniversary": "2027-10-08"
+  },
+  {
+   "client": "Klient A",
+   "ticker": "EUNA",
+   "purchase_date": "2022-05-20",
+   "units": "8700",
+   "purchase_price": "4.21",
+   "market_value_czk": "976714.20",
+   "unrealised_gain_czk": "86678.10",
+   "holding_days": "1617",
+   "three_year_anniversary": "2025-05-20"
+  },
+  {
+   "client": "Klient B",
+   "ticker": "VWCE",
+   "purchase_date": "2019-09-02",
+   "units": "1300",
+   "purchase_price": "74.30",
+   "market_value_czk": "4501575.00",
+   "unrealised_gain_czk": "2154438.00",
+   "holding_days": "2608",
+   "three_year_anniversary": "2022-09-02"
+  },
+  {
+   "client": "Klient B",
+   "ticker": "VWCE",
+   "purchase_date": "2022-11-07",
+   "units": "900",
+   "purchase_price": "88.60",
+   "market_value_czk": "3116475.00",
+   "unrealised_gain_czk": "1178793.00",
+   "holding_days": "1446",
+   "three_year_anniversary": "2025-11-07"
+  },
+  {
+   "client": "Klient B",
+   "ticker": "AVWS",
+   "purchase_date": "2024-11-18",
+   "units": "5800",
+   "purchase_price": "11.10",
+   "market_value_czk": "1775844.00",
+   "unrealised_gain_czk": "211410.00",
+   "holding_days": "704",
+   "three_year_anniversary": "2027-11-18"
+  },
+  {
+   "client": "Klient B",
+   "ticker": "EUNA",
+   "purchase_date": "2021-02-10",
+   "units": "40000",
+   "purchase_price": "4.88",
+   "market_value_czk": "4490640.00",
+   "unrealised_gain_czk": "-252720.00",
+   "holding_days": "2081",
+   "three_year_anniversary": "2024-02-10"
+  },
+  {
+   "client": "Klient B",
+   "ticker": "EUNA",
+   "purchase_date": "2023-10-16",
+   "units": "30500",
+   "purchase_price": "4.19",
+   "market_value_czk": "3424113.00",
+   "unrealised_gain_czk": "318694.50",
+   "holding_days": "1103",
+   "three_year_anniversary": "2026-10-16"
+  },
+  {
+   "client": "Klient B",
+   "ticker": "IGLN",
+   "purchase_date": "2021-06-21",
+   "units": "650",
+   "purchase_price": "34.80",
+   "market_value_czk": "1070160.00",
+   "unrealised_gain_czk": "595140.00",
+   "holding_days": "1950",
+   "three_year_anniversary": "2024-06-21"
+  },
+  {
+   "client": "Klient B",
+   "ticker": "IGLN",
+   "purchase_date": "2024-02-05",
+   "units": "450",
+   "purchase_price": "38.90",
+   "market_value_czk": "740880.00",
+   "unrealised_gain_czk": "373275.00",
+   "holding_days": "991",
+   "three_year_anniversary": "2027-02-05"
+  },
+  {
+   "client": "Klient C",
+   "ticker": "VWCE",
+   "purchase_date": "2020-04-14",
+   "units": "880",
+   "purchase_price": "71.50",
+   "market_value_czk": "3047220.00",
+   "unrealised_gain_czk": "1518264.00",
+   "holding_days": "2383",
+   "three_year_anniversary": "2023-04-14"
+  },
+  {
+   "client": "Klient C",
+   "ticker": "AVWS",
+   "purchase_date": "2024-09-26",
+   "units": "1900",
+   "purchase_price": "10.00",
+   "market_value_czk": "581742.00",
+   "unrealised_gain_czk": "120042.00",
+   "holding_days": "757",
+   "three_year_anniversary": "2027-09-26"
+  },
+  {
+   "client": "Klient C",
+   "ticker": "EUNA",
+   "purchase_date": "2021-08-30",
+   "units": "16000",
+   "purchase_price": "4.95",
+   "market_value_czk": "1796256.00",
+   "unrealised_gain_czk": "-128304.00",
+   "holding_days": "1880",
+   "three_year_anniversary": "2024-08-30"
+  },
+  {
+   "client": "Klient C",
+   "ticker": "IGLN",
+   "purchase_date": "2022-03-09",
+   "units": "360",
+   "purchase_price": "37.20",
+   "market_value_czk": "592704.00",
+   "unrealised_gain_czk": "311472.00",
+   "holding_days": "1689",
+   "three_year_anniversary": "2025-03-09"
+  },
+  {
+   "client": "Klient D",
+   "ticker": "VWCE",
+   "purchase_date": "2025-01-22",
+   "units": "950",
+   "purchase_price": "121.30",
+   "market_value_czk": "3289612.50",
+   "unrealised_gain_czk": "489402.00",
+   "holding_days": "639",
+   "three_year_anniversary": "2028-01-22"
+  },
+  {
+   "client": "Klient D",
+   "ticker": "AVWS",
+   "purchase_date": "2025-01-22",
+   "units": "3000",
+   "purchase_price": "11.40",
+   "market_value_czk": "918540.00",
+   "unrealised_gain_czk": "87480.00",
+   "holding_days": "639",
+   "three_year_anniversary": "2028-01-22"
+  },
+  {
+   "client": "Klient D",
+   "ticker": "EUNA",
+   "purchase_date": "2025-01-22",
+   "units": "16500",
+   "purchase_price": "4.45",
+   "market_value_czk": "1852389.00",
+   "unrealised_gain_czk": "68161.50",
+   "holding_days": "639",
+   "three_year_anniversary": "2028-01-22"
+  },
+  {
+   "client": "Klient E",
+   "ticker": "VWCE",
+   "purchase_date": "2020-01-13",
+   "units": "180",
+   "purchase_price": "82.40",
+   "market_value_czk": "623295.00",
+   "unrealised_gain_czk": "262877.40",
+   "holding_days": "2475",
+   "three_year_anniversary": "2023-01-13"
+  },
+  {
+   "client": "Klient E",
+   "ticker": "VWCE",
+   "purchase_date": "2023-11-20",
+   "units": "3200",
+   "purchase_price": "98.70",
+   "market_value_czk": "11080800.00",
+   "unrealised_gain_czk": "3405888.00",
+   "holding_days": "1068",
+   "three_year_anniversary": "2026-11-20"
+  },
+  {
+   "client": "Klient E",
+   "ticker": "VWCE",
+   "purchase_date": "2025-04-09",
+   "units": "260",
+   "purchase_price": "117.80",
+   "market_value_czk": "900315.00",
+   "unrealised_gain_czk": "156054.60",
+   "holding_days": "562",
+   "three_year_anniversary": "2028-04-09"
+  },
+  {
+   "client": "Klient E",
+   "ticker": "AVWS",
+   "purchase_date": "2024-12-03",
+   "units": "10800",
+   "purchase_price": "11.60",
+   "market_value_czk": "3306744.00",
+   "unrealised_gain_czk": "262440.00",
+   "holding_days": "689",
+   "three_year_anniversary": "2027-12-03"
+  },
+  {
+   "client": "Klient E",
+   "ticker": "EUNA",
+   "purchase_date": "2022-09-12",
+   "units": "40000",
+   "purchase_price": "4.15",
+   "market_value_czk": "4490640.00",
+   "unrealised_gain_czk": "456840.00",
+   "holding_days": "1502",
+   "three_year_anniversary": "2025-09-12"
+  },
+  {
+   "client": "Klient E",
+   "ticker": "IGLN",
+   "purchase_date": "2023-03-06",
+   "units": "1000",
+   "purchase_price": "37.50",
+   "market_value_czk": "1646400.00",
+   "unrealised_gain_czk": "858900.00",
+   "holding_days": "1327",
+   "three_year_anniversary": "2026-03-06"
+  }
+ ],
+ "first_negative_czk": {
+  "Klient A": null,
+  "Klient B": "2027-01-15",
+  "Klient C": null,
+  "Klient D": null,
+  "Klient E": "2026-12-15"
+ }
+}

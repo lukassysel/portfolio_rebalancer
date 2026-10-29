@@ -1,0 +1,3361 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "Rebalancování portfolií",
+  "description": "Rozhodovací podpora pro rebalancování klientských portfolií (návrh, nikoli pokyn k obchodu).",
+  "version": "2.3.0"
+ },
+ "paths": {
+  "/api/health": {
+   "get": {
+    "summary": "Health",
+    "operationId": "health_api_health_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": true,
+         "type": "object",
+         "title": "Response Health Api Health Get"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/meta": {
+   "get": {
+    "summary": "Meta",
+    "operationId": "meta_api_meta_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Meta"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/demo": {
+   "get": {
+    "summary": "Demo",
+    "operationId": "demo_api_demo_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Snapshot"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/evaluate": {
+   "post": {
+    "summary": "Evaluate Endpoint",
+    "operationId": "evaluate_endpoint_api_evaluate_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/EvaluateRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/EvaluationResult"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/import": {
+   "post": {
+    "summary": "Import Workbook",
+    "operationId": "import_workbook_api_import_post",
+    "requestBody": {
+     "content": {
+      "multipart/form-data": {
+       "schema": {
+        "$ref": "#/components/schemas/Body_import_workbook_api_import_post"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Snapshot"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Entity",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ImportError_"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/export": {
+   "post": {
+    "summary": "Export Workbook",
+    "description": "The current client book (data + strategies) as an .xlsx in the import format.",
+    "operationId": "export_workbook_api_export_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ExportRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {}
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "AlternativeOut": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "kind": {
+      "type": "string",
+      "title": "Kind"
+     },
+     "mode": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Mode"
+     },
+     "wait_date": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Wait Date"
+     },
+     "feasible": {
+      "type": "boolean",
+      "title": "Feasible"
+     },
+     "infeasibility": {
+      "anyOf": [
+       {
+        "additionalProperties": true,
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Infeasibility"
+     },
+     "compliant": {
+      "type": "boolean",
+      "title": "Compliant"
+     },
+     "residual": {
+      "type": "string",
+      "title": "Residual"
+     },
+     "residual_notes": {
+      "items": {
+       "$ref": "#/components/schemas/ResidualOut"
+      },
+      "type": "array",
+      "title": "Residual Notes"
+     },
+     "compliance_from": {
+      "type": "string",
+      "format": "date",
+      "title": "Compliance From"
+     },
+     "orders": {
+      "items": {
+       "$ref": "#/components/schemas/OrderOut"
+      },
+      "type": "array",
+      "title": "Orders"
+     },
+     "fx": {
+      "items": {
+       "$ref": "#/components/schemas/FxOut"
+      },
+      "type": "array",
+      "title": "Fx"
+     },
+     "steps": {
+      "items": {
+       "$ref": "#/components/schemas/StepOut"
+      },
+      "type": "array",
+      "title": "Steps"
+     },
+     "commissions": {
+      "type": "string",
+      "title": "Commissions"
+     },
+     "fx_cost": {
+      "type": "string",
+      "title": "Fx Cost"
+     },
+     "tax": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Tax"
+     },
+     "tax_high": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Tax High"
+     },
+     "tax_corporate": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Tax Corporate"
+     },
+     "total_cost": {
+      "type": "string",
+      "title": "Total Cost"
+     },
+     "order_count": {
+      "type": "integer",
+      "title": "Order Count"
+     },
+     "turnover": {
+      "type": "string",
+      "title": "Turnover"
+     },
+     "first_order": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "First Order"
+     },
+     "min_czk": {
+      "type": "string",
+      "title": "Min Czk"
+     },
+     "min_czk_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Min Czk Date"
+     },
+     "min_cash": {
+      "type": "string",
+      "title": "Min Cash"
+     },
+     "min_cash_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Min Cash Date"
+     },
+     "balances": {
+      "items": {
+       "$ref": "#/components/schemas/BalancePoint"
+      },
+      "type": "array",
+      "title": "Balances"
+     },
+     "checkpoints": {
+      "items": {
+       "$ref": "#/components/schemas/CheckpointOut"
+      },
+      "type": "array",
+      "title": "Checkpoints"
+     },
+     "ledger": {
+      "items": {
+       "$ref": "#/components/schemas/LedgerEntry"
+      },
+      "type": "array",
+      "title": "Ledger"
+     },
+     "wait_test": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/WaitTestOut"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "eligible": {
+      "type": "boolean",
+      "title": "Eligible",
+      "default": true
+     },
+     "rank": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Rank"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "kind",
+     "mode",
+     "wait_date",
+     "feasible",
+     "infeasibility",
+     "compliant",
+     "residual",
+     "residual_notes",
+     "compliance_from",
+     "orders",
+     "fx",
+     "steps",
+     "commissions",
+     "fx_cost",
+     "tax",
+     "tax_high",
+     "tax_corporate",
+     "total_cost",
+     "order_count",
+     "turnover",
+     "first_order",
+     "min_czk",
+     "min_czk_date",
+     "min_cash",
+     "min_cash_date",
+     "balances",
+     "checkpoints",
+     "ledger"
+    ],
+    "title": "AlternativeOut"
+   },
+   "Assumptions-Input": {
+    "properties": {
+     "commission_rate": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Commission Rate",
+      "default": "0.0015"
+     },
+     "commission_min": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Commission Min",
+      "default": "10"
+     },
+     "fx_cost": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Fx Cost",
+      "default": "0.005"
+     },
+     "fx_lag_days": {
+      "type": "integer",
+      "title": "Fx Lag Days",
+      "default": 1
+     },
+     "tax_rate": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Tax Rate",
+      "default": "0.15"
+     },
+     "tax_rate_high": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Tax Rate High",
+      "default": "0.23"
+     },
+     "corporate_tax_rate": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Corporate Tax Rate",
+      "default": "0.21"
+     },
+     "receipts_exemption": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Receipts Exemption",
+      "default": "100000"
+     },
+     "time_test_years": {
+      "type": "integer",
+      "title": "Time Test Years",
+      "default": 3
+     },
+     "acquisition_settlement_days": {
+      "type": "integer",
+      "title": "Acquisition Settlement Days",
+      "default": 2
+     },
+     "monitor_band_ratio": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Monitor Band Ratio",
+      "default": "0.75"
+     },
+     "monitor_days": {
+      "type": "integer",
+      "title": "Monitor Days",
+      "default": 30
+     },
+     "stress_equity_drop": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Stress Equity Drop",
+      "default": "20"
+     }
+    },
+    "type": "object",
+    "title": "Assumptions",
+    "description": "System-level model assumptions (doc 08 §2), echoed in every result."
+   },
+   "Assumptions-Output": {
+    "properties": {
+     "commission_rate": {
+      "type": "string",
+      "title": "Commission Rate",
+      "default": "0.0015"
+     },
+     "commission_min": {
+      "type": "string",
+      "title": "Commission Min",
+      "default": "10"
+     },
+     "fx_cost": {
+      "type": "string",
+      "title": "Fx Cost",
+      "default": "0.005"
+     },
+     "fx_lag_days": {
+      "type": "integer",
+      "title": "Fx Lag Days",
+      "default": 1
+     },
+     "tax_rate": {
+      "type": "string",
+      "title": "Tax Rate",
+      "default": "0.15"
+     },
+     "tax_rate_high": {
+      "type": "string",
+      "title": "Tax Rate High",
+      "default": "0.23"
+     },
+     "corporate_tax_rate": {
+      "type": "string",
+      "title": "Corporate Tax Rate",
+      "default": "0.21"
+     },
+     "receipts_exemption": {
+      "type": "string",
+      "title": "Receipts Exemption",
+      "default": "100000"
+     },
+     "time_test_years": {
+      "type": "integer",
+      "title": "Time Test Years",
+      "default": 3
+     },
+     "acquisition_settlement_days": {
+      "type": "integer",
+      "title": "Acquisition Settlement Days",
+      "default": 2
+     },
+     "monitor_band_ratio": {
+      "type": "string",
+      "title": "Monitor Band Ratio",
+      "default": "0.75"
+     },
+     "monitor_days": {
+      "type": "integer",
+      "title": "Monitor Days",
+      "default": 30
+     },
+     "stress_equity_drop": {
+      "type": "string",
+      "title": "Stress Equity Drop",
+      "default": "20"
+     }
+    },
+    "type": "object",
+    "title": "Assumptions",
+    "description": "System-level model assumptions (doc 08 §2), echoed in every result."
+   },
+   "BalancePoint": {
+    "properties": {
+     "date": {
+      "type": "string",
+      "format": "date",
+      "title": "Date"
+     },
+     "balances": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "type": "object",
+      "title": "Balances"
+     }
+    },
+    "type": "object",
+    "required": [
+     "date",
+     "balances"
+    ],
+    "title": "BalancePoint"
+   },
+   "Benchmark": {
+    "properties": {
+     "alternative": {
+      "type": "string",
+      "title": "Alternative"
+     },
+     "saving": {
+      "type": "string",
+      "title": "Saving"
+     }
+    },
+    "type": "object",
+    "required": [
+     "alternative",
+     "saving"
+    ],
+    "title": "Benchmark",
+    "description": "The simple rule: when a band (on today's total-asset weights) is breached, rebalance fully to target now;\notherwise do nothing. Compared with the recommendation on the same simulation."
+   },
+   "BenchmarkTotal": {
+    "properties": {
+     "clients": {
+      "type": "integer",
+      "title": "Clients"
+     },
+     "simple_cost": {
+      "type": "string",
+      "title": "Simple Cost"
+     },
+     "recommended_cost": {
+      "type": "string",
+      "title": "Recommended Cost"
+     },
+     "saving": {
+      "type": "string",
+      "title": "Saving"
+     },
+     "simple_orders": {
+      "type": "integer",
+      "title": "Simple Orders"
+     },
+     "recommended_orders": {
+      "type": "integer",
+      "title": "Recommended Orders"
+     }
+    },
+    "type": "object",
+    "required": [
+     "clients",
+     "simple_cost",
+     "recommended_cost",
+     "saving",
+     "simple_orders",
+     "recommended_orders"
+    ],
+    "title": "BenchmarkTotal"
+   },
+   "Body_import_workbook_api_import_post": {
+    "properties": {
+     "file": {
+      "type": "string",
+      "contentMediaType": "application/octet-stream",
+      "title": "File"
+     }
+    },
+    "type": "object",
+    "required": [
+     "file"
+    ],
+    "title": "Body_import_workbook_api_import_post"
+   },
+   "CashBalance-Input": {
+    "properties": {
+     "currency": {
+      "type": "string",
+      "title": "Currency"
+     },
+     "amount": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Amount"
+     }
+    },
+    "type": "object",
+    "required": [
+     "currency",
+     "amount"
+    ],
+    "title": "CashBalance"
+   },
+   "CashBalance-Output": {
+    "properties": {
+     "currency": {
+      "type": "string",
+      "title": "Currency"
+     },
+     "amount": {
+      "type": "string",
+      "title": "Amount"
+     }
+    },
+    "type": "object",
+    "required": [
+     "currency",
+     "amount"
+    ],
+    "title": "CashBalance"
+   },
+   "CashLine": {
+    "properties": {
+     "currency": {
+      "type": "string",
+      "title": "Currency"
+     },
+     "amount": {
+      "type": "string",
+      "title": "Amount"
+     },
+     "value_czk": {
+      "type": "string",
+      "title": "Value Czk"
+     }
+    },
+    "type": "object",
+    "required": [
+     "currency",
+     "amount",
+     "value_czk"
+    ],
+    "title": "CashLine"
+   },
+   "CheckpointOut": {
+    "properties": {
+     "date": {
+      "type": "string",
+      "format": "date",
+      "title": "Date"
+     },
+     "nav": {
+      "type": "string",
+      "title": "Nav"
+     },
+     "earmark": {
+      "type": "string",
+      "title": "Earmark"
+     },
+     "weights_a": {
+      "anyOf": [
+       {
+        "additionalProperties": {
+         "type": "string"
+        },
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Weights A"
+     },
+     "weights_b": {
+      "anyOf": [
+       {
+        "additionalProperties": {
+         "type": "string"
+        },
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Weights B"
+     },
+     "cash_net": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cash Net"
+     },
+     "equity_a": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Equity A"
+     },
+     "equity_b": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Equity B"
+     }
+    },
+    "type": "object",
+    "required": [
+     "date",
+     "nav",
+     "earmark",
+     "weights_a",
+     "weights_b",
+     "cash_net",
+     "equity_a",
+     "equity_b"
+    ],
+    "title": "CheckpointOut"
+   },
+   "Client-Input": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "profile": {
+      "type": "string",
+      "title": "Profile"
+     },
+     "tax_regime": {
+      "type": "string",
+      "title": "Tax Regime"
+     },
+     "targets": {
+      "additionalProperties": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "string"
+        }
+       ]
+      },
+      "type": "object",
+      "title": "Targets"
+     },
+     "note": {
+      "type": "string",
+      "title": "Note",
+      "default": ""
+     },
+     "lots": {
+      "items": {
+       "$ref": "#/components/schemas/Lot-Input"
+      },
+      "type": "array",
+      "title": "Lots"
+     },
+     "cash": {
+      "items": {
+       "$ref": "#/components/schemas/CashBalance-Input"
+      },
+      "type": "array",
+      "title": "Cash"
+     },
+     "flows": {
+      "items": {
+       "$ref": "#/components/schemas/Flow-Input"
+      },
+      "type": "array",
+      "title": "Flows"
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "profile",
+     "tax_regime",
+     "targets"
+    ],
+    "title": "Client"
+   },
+   "Client-Output": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "profile": {
+      "type": "string",
+      "title": "Profile"
+     },
+     "tax_regime": {
+      "type": "string",
+      "title": "Tax Regime"
+     },
+     "targets": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "type": "object",
+      "title": "Targets"
+     },
+     "note": {
+      "type": "string",
+      "title": "Note",
+      "default": ""
+     },
+     "lots": {
+      "items": {
+       "$ref": "#/components/schemas/Lot-Output"
+      },
+      "type": "array",
+      "title": "Lots"
+     },
+     "cash": {
+      "items": {
+       "$ref": "#/components/schemas/CashBalance-Output"
+      },
+      "type": "array",
+      "title": "Cash"
+     },
+     "flows": {
+      "items": {
+       "$ref": "#/components/schemas/Flow-Output"
+      },
+      "type": "array",
+      "title": "Flows"
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "profile",
+     "tax_regime",
+     "targets"
+    ],
+    "title": "Client"
+   },
+   "ClientResult": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "profile": {
+      "type": "string",
+      "title": "Profile"
+     },
+     "tax_regime": {
+      "type": "string",
+      "title": "Tax Regime"
+     },
+     "note": {
+      "type": "string",
+      "title": "Note"
+     },
+     "status": {
+      "type": "string",
+      "title": "Status"
+     },
+     "issues": {
+      "items": {
+       "$ref": "#/components/schemas/Issue"
+      },
+      "type": "array",
+      "title": "Issues"
+     },
+     "valuation": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Valuation"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "horizon_end": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Horizon End"
+     },
+     "reserve_days": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Reserve Days"
+     },
+     "earmark_today": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Earmark Today"
+     },
+     "triggers": {
+      "items": {
+       "$ref": "#/components/schemas/TriggerOut"
+      },
+      "type": "array",
+      "title": "Triggers"
+     },
+     "alternatives": {
+      "items": {
+       "$ref": "#/components/schemas/AlternativeOut"
+      },
+      "type": "array",
+      "title": "Alternatives"
+     },
+     "recommended": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Recommended"
+     },
+     "ranking": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/RankingOut"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "uncertainty": {
+      "items": {
+       "$ref": "#/components/schemas/UncertaintyOut"
+      },
+      "type": "array",
+      "title": "Uncertainty"
+     },
+     "outcome": {
+      "$ref": "#/components/schemas/OutcomeOut"
+     },
+     "monitoring": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array",
+      "title": "Monitoring"
+     },
+     "reserve_bridge": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/ReserveBridge"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "summary": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Summary"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "explanations": {
+      "items": {
+       "$ref": "#/components/schemas/Explanation"
+      },
+      "type": "array",
+      "title": "Explanations"
+     },
+     "stress": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/StressOut"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "benchmark": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Benchmark"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "profile",
+     "tax_regime",
+     "note",
+     "status",
+     "issues",
+     "valuation",
+     "horizon_end",
+     "reserve_days",
+     "earmark_today",
+     "triggers",
+     "alternatives",
+     "recommended",
+     "ranking",
+     "uncertainty",
+     "outcome",
+     "monitoring"
+    ],
+    "title": "ClientResult"
+   },
+   "Component": {
+    "properties": {
+     "key": {
+      "type": "string",
+      "title": "Key"
+     },
+     "value": {
+      "type": "string",
+      "title": "Value"
+     },
+     "units": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Units"
+     },
+     "weight": {
+      "type": "string",
+      "title": "Weight"
+     },
+     "target": {
+      "type": "string",
+      "title": "Target"
+     },
+     "deviation": {
+      "type": "string",
+      "title": "Deviation"
+     },
+     "relative_deviation": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Relative Deviation"
+     },
+     "band": {
+      "type": "string",
+      "title": "Band"
+     },
+     "band_low": {
+      "type": "string",
+      "title": "Band Low"
+     },
+     "band_high": {
+      "type": "string",
+      "title": "Band High"
+     },
+     "breach": {
+      "type": "boolean",
+      "title": "Breach"
+     }
+    },
+    "type": "object",
+    "required": [
+     "key",
+     "value",
+     "units",
+     "weight",
+     "target",
+     "deviation",
+     "relative_deviation",
+     "band",
+     "band_low",
+     "band_high",
+     "breach"
+    ],
+    "title": "Component"
+   },
+   "Dataset-Input": {
+    "properties": {
+     "valuation_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Valuation Date"
+     },
+     "instruments": {
+      "items": {
+       "$ref": "#/components/schemas/Instrument-Input"
+      },
+      "type": "array",
+      "title": "Instruments"
+     },
+     "fx": {
+      "additionalProperties": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "string"
+        }
+       ]
+      },
+      "type": "object",
+      "title": "Fx"
+     },
+     "clients": {
+      "items": {
+       "$ref": "#/components/schemas/Client-Input"
+      },
+      "type": "array",
+      "title": "Clients"
+     },
+     "source": {
+      "type": "string",
+      "title": "Source",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "required": [
+     "valuation_date",
+     "instruments",
+     "fx",
+     "clients"
+    ],
+    "title": "Dataset"
+   },
+   "Dataset-Output": {
+    "properties": {
+     "valuation_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Valuation Date"
+     },
+     "instruments": {
+      "items": {
+       "$ref": "#/components/schemas/Instrument-Output"
+      },
+      "type": "array",
+      "title": "Instruments"
+     },
+     "fx": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "type": "object",
+      "title": "Fx"
+     },
+     "clients": {
+      "items": {
+       "$ref": "#/components/schemas/Client-Output"
+      },
+      "type": "array",
+      "title": "Clients"
+     },
+     "source": {
+      "type": "string",
+      "title": "Source",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "required": [
+     "valuation_date",
+     "instruments",
+     "fx",
+     "clients"
+    ],
+    "title": "Dataset"
+   },
+   "EvaluateRequest": {
+    "properties": {
+     "model_version": {
+      "type": "string",
+      "title": "Model Version",
+      "default": "2.3.0"
+     },
+     "dataset": {
+      "$ref": "#/components/schemas/Dataset-Input"
+     },
+     "policies": {
+      "additionalProperties": {
+       "$ref": "#/components/schemas/Policy-Input"
+      },
+      "type": "object",
+      "title": "Policies"
+     },
+     "assumptions": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Assumptions-Input"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "issues": {
+      "items": {
+       "$ref": "#/components/schemas/Issue"
+      },
+      "type": "array",
+      "title": "Issues"
+     }
+    },
+    "type": "object",
+    "required": [
+     "dataset",
+     "policies"
+    ],
+    "title": "EvaluateRequest"
+   },
+   "EvaluationResult": {
+    "properties": {
+     "model_version": {
+      "type": "string",
+      "title": "Model Version"
+     },
+     "valuation_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Valuation Date"
+     },
+     "source": {
+      "type": "string",
+      "title": "Source"
+     },
+     "assumptions": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Assumptions"
+     },
+     "issues": {
+      "items": {
+       "$ref": "#/components/schemas/Issue"
+      },
+      "type": "array",
+      "title": "Issues"
+     },
+     "clients": {
+      "items": {
+       "$ref": "#/components/schemas/ClientResult"
+      },
+      "type": "array",
+      "title": "Clients"
+     },
+     "benchmark": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/BenchmarkTotal"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     }
+    },
+    "type": "object",
+    "required": [
+     "model_version",
+     "valuation_date",
+     "source",
+     "assumptions",
+     "issues",
+     "clients"
+    ],
+    "title": "EvaluationResult"
+   },
+   "Explanation": {
+    "properties": {
+     "section": {
+      "type": "string",
+      "title": "Section"
+     },
+     "code": {
+      "type": "string",
+      "title": "Code"
+     },
+     "passed": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Passed"
+     },
+     "params": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "type": "object",
+      "title": "Params"
+     }
+    },
+    "type": "object",
+    "required": [
+     "section",
+     "code",
+     "passed"
+    ],
+    "title": "Explanation"
+   },
+   "ExportRequest": {
+    "properties": {
+     "dataset": {
+      "$ref": "#/components/schemas/Dataset-Input"
+     },
+     "policies": {
+      "additionalProperties": {
+       "$ref": "#/components/schemas/Policy-Input"
+      },
+      "type": "object",
+      "title": "Policies"
+     }
+    },
+    "type": "object",
+    "required": [
+     "dataset",
+     "policies"
+    ],
+    "title": "ExportRequest"
+   },
+   "Flow-Input": {
+    "properties": {
+     "date": {
+      "type": "string",
+      "format": "date",
+      "title": "Date"
+     },
+     "amount": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Amount"
+     },
+     "kind": {
+      "type": "string",
+      "title": "Kind",
+      "default": ""
+     },
+     "note": {
+      "type": "string",
+      "title": "Note",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "required": [
+     "date",
+     "amount"
+    ],
+    "title": "Flow"
+   },
+   "Flow-Output": {
+    "properties": {
+     "date": {
+      "type": "string",
+      "format": "date",
+      "title": "Date"
+     },
+     "amount": {
+      "type": "string",
+      "title": "Amount"
+     },
+     "kind": {
+      "type": "string",
+      "title": "Kind",
+      "default": ""
+     },
+     "note": {
+      "type": "string",
+      "title": "Note",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "required": [
+     "date",
+     "amount"
+    ],
+    "title": "Flow"
+   },
+   "FlowView": {
+    "properties": {
+     "date": {
+      "type": "string",
+      "format": "date",
+      "title": "Date"
+     },
+     "value_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Value Date"
+     },
+     "amount": {
+      "type": "string",
+      "title": "Amount"
+     },
+     "kind": {
+      "type": "string",
+      "title": "Kind"
+     },
+     "note": {
+      "type": "string",
+      "title": "Note"
+     },
+     "in_horizon": {
+      "type": "boolean",
+      "title": "In Horizon"
+     },
+     "past": {
+      "type": "boolean",
+      "title": "Past"
+     }
+    },
+    "type": "object",
+    "required": [
+     "date",
+     "value_date",
+     "amount",
+     "kind",
+     "note",
+     "in_horizon",
+     "past"
+    ],
+    "title": "FlowView"
+   },
+   "FxOut": {
+    "properties": {
+     "executed": {
+      "type": "string",
+      "format": "date",
+      "title": "Executed"
+     },
+     "available": {
+      "type": "string",
+      "format": "date",
+      "title": "Available"
+     },
+     "source": {
+      "type": "string",
+      "title": "Source"
+     },
+     "target": {
+      "type": "string",
+      "title": "Target"
+     },
+     "source_amount": {
+      "type": "string",
+      "title": "Source Amount"
+     },
+     "delivered": {
+      "type": "string",
+      "title": "Delivered"
+     },
+     "cost_czk": {
+      "type": "string",
+      "title": "Cost Czk"
+     },
+     "purpose": {
+      "type": "string",
+      "title": "Purpose"
+     },
+     "ref": {
+      "type": "string",
+      "title": "Ref"
+     }
+    },
+    "type": "object",
+    "required": [
+     "executed",
+     "available",
+     "source",
+     "target",
+     "source_amount",
+     "delivered",
+     "cost_czk",
+     "purpose",
+     "ref"
+    ],
+    "title": "FxOut"
+   },
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "type": "array",
+      "title": "Detail"
+     }
+    },
+    "type": "object",
+    "title": "HTTPValidationError"
+   },
+   "ImportError_": {
+    "properties": {
+     "detail": {
+      "type": "string",
+      "title": "Detail"
+     },
+     "issues": {
+      "items": {
+       "$ref": "#/components/schemas/Issue"
+      },
+      "type": "array",
+      "title": "Issues"
+     }
+    },
+    "type": "object",
+    "required": [
+     "detail",
+     "issues"
+    ],
+    "title": "ImportError_"
+   },
+   "Instrument-Input": {
+    "properties": {
+     "ticker": {
+      "type": "string",
+      "title": "Ticker"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "isin": {
+      "type": "string",
+      "title": "Isin"
+     },
+     "currency": {
+      "type": "string",
+      "title": "Currency"
+     },
+     "asset_class": {
+      "type": "string",
+      "title": "Asset Class"
+     },
+     "price": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Price"
+     },
+     "settlement_days": {
+      "type": "integer",
+      "title": "Settlement Days",
+      "default": 2
+     }
+    },
+    "type": "object",
+    "required": [
+     "ticker",
+     "name",
+     "isin",
+     "currency",
+     "asset_class",
+     "price"
+    ],
+    "title": "Instrument"
+   },
+   "Instrument-Output": {
+    "properties": {
+     "ticker": {
+      "type": "string",
+      "title": "Ticker"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "isin": {
+      "type": "string",
+      "title": "Isin"
+     },
+     "currency": {
+      "type": "string",
+      "title": "Currency"
+     },
+     "asset_class": {
+      "type": "string",
+      "title": "Asset Class"
+     },
+     "price": {
+      "type": "string",
+      "title": "Price"
+     },
+     "settlement_days": {
+      "type": "integer",
+      "title": "Settlement Days",
+      "default": 2
+     }
+    },
+    "type": "object",
+    "required": [
+     "ticker",
+     "name",
+     "isin",
+     "currency",
+     "asset_class",
+     "price"
+    ],
+    "title": "Instrument"
+   },
+   "Issue": {
+    "properties": {
+     "severity": {
+      "type": "string",
+      "title": "Severity"
+     },
+     "code": {
+      "type": "string",
+      "title": "Code"
+     },
+     "message": {
+      "type": "string",
+      "title": "Message"
+     },
+     "sheet": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Sheet"
+     },
+     "cell": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cell"
+     },
+     "client": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Client"
+     }
+    },
+    "type": "object",
+    "required": [
+     "severity",
+     "code",
+     "message"
+    ],
+    "title": "Issue",
+    "description": "Validation issue with a sheet/cell reference (doc 08 §12)."
+   },
+   "LedgerEntry": {
+    "properties": {
+     "value_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Value Date"
+     },
+     "origin": {
+      "type": "string",
+      "format": "date",
+      "title": "Origin"
+     },
+     "currency": {
+      "type": "string",
+      "title": "Currency"
+     },
+     "amount": {
+      "type": "string",
+      "title": "Amount"
+     },
+     "kind": {
+      "type": "string",
+      "title": "Kind"
+     },
+     "ref": {
+      "type": "string",
+      "title": "Ref"
+     },
+     "balance_after": {
+      "type": "string",
+      "title": "Balance After"
+     }
+    },
+    "type": "object",
+    "required": [
+     "value_date",
+     "origin",
+     "currency",
+     "amount",
+     "kind",
+     "ref",
+     "balance_after"
+    ],
+    "title": "LedgerEntry",
+    "description": "One value-dated cash movement and the settled balance of its currency after it (doc 08 §5)."
+   },
+   "Lot-Input": {
+    "properties": {
+     "ticker": {
+      "type": "string",
+      "title": "Ticker"
+     },
+     "acquired": {
+      "type": "string",
+      "format": "date",
+      "title": "Acquired"
+     },
+     "units": {
+      "type": "integer",
+      "title": "Units"
+     },
+     "buy_price": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Buy Price"
+     }
+    },
+    "type": "object",
+    "required": [
+     "ticker",
+     "acquired",
+     "units",
+     "buy_price"
+    ],
+    "title": "Lot"
+   },
+   "Lot-Output": {
+    "properties": {
+     "ticker": {
+      "type": "string",
+      "title": "Ticker"
+     },
+     "acquired": {
+      "type": "string",
+      "format": "date",
+      "title": "Acquired"
+     },
+     "units": {
+      "type": "integer",
+      "title": "Units"
+     },
+     "buy_price": {
+      "type": "string",
+      "title": "Buy Price"
+     }
+    },
+    "type": "object",
+    "required": [
+     "ticker",
+     "acquired",
+     "units",
+     "buy_price"
+    ],
+    "title": "Lot"
+   },
+   "LotSaleOut": {
+    "properties": {
+     "acquired": {
+      "type": "string",
+      "format": "date",
+      "title": "Acquired"
+     },
+     "units": {
+      "type": "integer",
+      "title": "Units"
+     },
+     "gain": {
+      "type": "string",
+      "title": "Gain"
+     },
+     "exempt": {
+      "type": "boolean",
+      "title": "Exempt"
+     },
+     "first_exempt": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "First Exempt"
+     },
+     "tax_year": {
+      "type": "integer",
+      "title": "Tax Year"
+     }
+    },
+    "type": "object",
+    "required": [
+     "acquired",
+     "units",
+     "gain",
+     "exempt",
+     "first_exempt",
+     "tax_year"
+    ],
+    "title": "LotSaleOut"
+   },
+   "LotView": {
+    "properties": {
+     "ticker": {
+      "type": "string",
+      "title": "Ticker"
+     },
+     "acquired": {
+      "type": "string",
+      "format": "date",
+      "title": "Acquired"
+     },
+     "units": {
+      "type": "integer",
+      "title": "Units"
+     },
+     "buy_price": {
+      "type": "string",
+      "title": "Buy Price"
+     },
+     "market_value": {
+      "type": "string",
+      "title": "Market Value"
+     },
+     "cost_basis": {
+      "type": "string",
+      "title": "Cost Basis"
+     },
+     "unrealised_gain": {
+      "type": "string",
+      "title": "Unrealised Gain"
+     },
+     "holding_days": {
+      "type": "integer",
+      "title": "Holding Days"
+     },
+     "anniversary": {
+      "type": "string",
+      "format": "date",
+      "title": "Anniversary"
+     },
+     "assumed_acquisition": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Assumed Acquisition"
+     },
+     "first_exempt": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "First Exempt"
+     },
+     "tax_status": {
+      "type": "string",
+      "title": "Tax Status"
+     }
+    },
+    "type": "object",
+    "required": [
+     "ticker",
+     "acquired",
+     "units",
+     "buy_price",
+     "market_value",
+     "cost_basis",
+     "unrealised_gain",
+     "holding_days",
+     "anniversary",
+     "assumed_acquisition",
+     "first_exempt",
+     "tax_status"
+    ],
+    "title": "LotView"
+   },
+   "Meta": {
+    "properties": {
+     "model_version": {
+      "type": "string",
+      "title": "Model Version"
+     },
+     "default_policy": {
+      "$ref": "#/components/schemas/Policy-Output"
+     },
+     "editable": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Editable"
+     },
+     "ranges": {
+      "additionalProperties": {
+       "items": {
+        "type": "string"
+       },
+       "type": "array"
+      },
+      "type": "object",
+      "title": "Ranges"
+     },
+     "assumptions": {
+      "$ref": "#/components/schemas/Assumptions-Output"
+     }
+    },
+    "type": "object",
+    "required": [
+     "model_version",
+     "default_policy",
+     "editable",
+     "ranges",
+     "assumptions"
+    ],
+    "title": "Meta"
+   },
+   "OrderBrief": {
+    "properties": {
+     "side": {
+      "type": "string",
+      "title": "Side"
+     },
+     "ticker": {
+      "type": "string",
+      "title": "Ticker"
+     },
+     "units": {
+      "type": "integer",
+      "title": "Units"
+     }
+    },
+    "type": "object",
+    "required": [
+     "side",
+     "ticker",
+     "units"
+    ],
+    "title": "OrderBrief"
+   },
+   "OrderOut": {
+    "properties": {
+     "trade_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Trade Date"
+     },
+     "settlement_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Settlement Date"
+     },
+     "side": {
+      "type": "string",
+      "title": "Side"
+     },
+     "ticker": {
+      "type": "string",
+      "title": "Ticker"
+     },
+     "units": {
+      "type": "integer",
+      "title": "Units"
+     },
+     "price": {
+      "type": "string",
+      "title": "Price"
+     },
+     "currency": {
+      "type": "string",
+      "title": "Currency"
+     },
+     "gross": {
+      "type": "string",
+      "title": "Gross"
+     },
+     "gross_czk": {
+      "type": "string",
+      "title": "Gross Czk"
+     },
+     "commission": {
+      "type": "string",
+      "title": "Commission"
+     },
+     "commission_czk": {
+      "type": "string",
+      "title": "Commission Czk"
+     },
+     "purposes": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Purposes"
+     },
+     "conditional": {
+      "type": "boolean",
+      "title": "Conditional"
+     },
+     "step_reason": {
+      "type": "string",
+      "title": "Step Reason"
+     },
+     "lots": {
+      "items": {
+       "$ref": "#/components/schemas/LotSaleOut"
+      },
+      "type": "array",
+      "title": "Lots"
+     },
+     "tags": {
+      "items": {
+       "$ref": "#/components/schemas/Tag"
+      },
+      "type": "array",
+      "title": "Tags"
+     }
+    },
+    "type": "object",
+    "required": [
+     "trade_date",
+     "settlement_date",
+     "side",
+     "ticker",
+     "units",
+     "price",
+     "currency",
+     "gross",
+     "gross_czk",
+     "commission",
+     "commission_czk",
+     "purposes",
+     "conditional",
+     "step_reason"
+    ],
+    "title": "OrderOut"
+   },
+   "OutcomeOut": {
+    "properties": {
+     "code": {
+      "type": "string",
+      "title": "Code"
+     },
+     "label": {
+      "type": "string",
+      "title": "Label"
+     },
+     "date": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Date"
+     },
+     "reason": {
+      "type": "string",
+      "title": "Reason"
+     },
+     "details": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Details"
+     }
+    },
+    "type": "object",
+    "required": [
+     "code",
+     "label",
+     "date",
+     "reason",
+     "details"
+    ],
+    "title": "OutcomeOut"
+   },
+   "Policy-Input": {
+    "properties": {
+     "targets": {
+      "additionalProperties": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "string"
+        }
+       ]
+      },
+      "type": "object",
+      "title": "Targets"
+     },
+     "band_abs": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Band Abs",
+      "default": "5"
+     },
+     "band_rel": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Band Rel",
+      "default": "25"
+     },
+     "equity_band": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Equity Band",
+      "default": "5"
+     },
+     "idle_cash_tol": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Idle Cash Tol",
+      "default": "5"
+     },
+     "inner_band": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Inner Band",
+      "default": "50"
+     },
+     "planning_months": {
+      "type": "integer",
+      "title": "Planning Months",
+      "default": 6
+     },
+     "reserve_days": {
+      "type": "integer",
+      "title": "Reserve Days",
+      "default": 90
+     },
+     "min_trade": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Min Trade",
+      "default": "25000"
+     },
+     "max_wait_days": {
+      "type": "integer",
+      "title": "Max Wait Days",
+      "default": 45
+     },
+     "wait_dev_cap": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Wait Dev Cap",
+      "default": "15"
+     },
+     "min_saving_czk": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Min Saving Czk",
+      "default": "10000"
+     },
+     "min_saving_pct": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Min Saving Pct",
+      "default": "0.05"
+     },
+     "min_cash_pct": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Min Cash Pct",
+      "default": "0.5"
+     },
+     "min_cash_czk": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Min Cash Czk",
+      "default": "10000"
+     }
+    },
+    "type": "object",
+    "required": [
+     "targets"
+    ],
+    "title": "Policy",
+    "description": "Per-client rebalancing policy (doc 08 §4). Legislation is never a policy parameter."
+   },
+   "Policy-Output": {
+    "properties": {
+     "targets": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "type": "object",
+      "title": "Targets"
+     },
+     "band_abs": {
+      "type": "string",
+      "title": "Band Abs",
+      "default": "5"
+     },
+     "band_rel": {
+      "type": "string",
+      "title": "Band Rel",
+      "default": "25"
+     },
+     "equity_band": {
+      "type": "string",
+      "title": "Equity Band",
+      "default": "5"
+     },
+     "idle_cash_tol": {
+      "type": "string",
+      "title": "Idle Cash Tol",
+      "default": "5"
+     },
+     "inner_band": {
+      "type": "string",
+      "title": "Inner Band",
+      "default": "50"
+     },
+     "planning_months": {
+      "type": "integer",
+      "title": "Planning Months",
+      "default": 6
+     },
+     "reserve_days": {
+      "type": "integer",
+      "title": "Reserve Days",
+      "default": 90
+     },
+     "min_trade": {
+      "type": "string",
+      "title": "Min Trade",
+      "default": "25000"
+     },
+     "max_wait_days": {
+      "type": "integer",
+      "title": "Max Wait Days",
+      "default": 45
+     },
+     "wait_dev_cap": {
+      "type": "string",
+      "title": "Wait Dev Cap",
+      "default": "15"
+     },
+     "min_saving_czk": {
+      "type": "string",
+      "title": "Min Saving Czk",
+      "default": "10000"
+     },
+     "min_saving_pct": {
+      "type": "string",
+      "title": "Min Saving Pct",
+      "default": "0.05"
+     },
+     "min_cash_pct": {
+      "type": "string",
+      "title": "Min Cash Pct",
+      "default": "0.5"
+     },
+     "min_cash_czk": {
+      "type": "string",
+      "title": "Min Cash Czk",
+      "default": "10000"
+     }
+    },
+    "type": "object",
+    "required": [
+     "targets"
+    ],
+    "title": "Policy",
+    "description": "Per-client rebalancing policy (doc 08 §4). Legislation is never a policy parameter."
+   },
+   "RankingOut": {
+    "properties": {
+     "winner": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Winner"
+     },
+     "runner_up": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Runner Up"
+     },
+     "decisive": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Decisive"
+     },
+     "winner_value": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Winner Value"
+     },
+     "runner_up_value": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Runner Up Value"
+     },
+     "order": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Order"
+     }
+    },
+    "type": "object",
+    "required": [
+     "winner",
+     "runner_up",
+     "decisive",
+     "winner_value",
+     "runner_up_value",
+     "order"
+    ],
+    "title": "RankingOut"
+   },
+   "ReserveBridge": {
+    "properties": {
+     "window_end": {
+      "type": "string",
+      "format": "date",
+      "title": "Window End"
+     },
+     "withdrawals": {
+      "type": "string",
+      "title": "Withdrawals"
+     },
+     "czk_cash": {
+      "type": "string",
+      "title": "Czk Cash"
+     },
+     "fx_allowance": {
+      "type": "string",
+      "title": "Fx Allowance"
+     },
+     "earmark": {
+      "type": "string",
+      "title": "Earmark"
+     },
+     "nav": {
+      "type": "string",
+      "title": "Nav"
+     },
+     "investable": {
+      "type": "string",
+      "title": "Investable"
+     },
+     "cash_target_pct": {
+      "type": "string",
+      "title": "Cash Target Pct"
+     },
+     "target_cash": {
+      "type": "string",
+      "title": "Target Cash"
+     },
+     "required_cash": {
+      "type": "string",
+      "title": "Required Cash"
+     },
+     "cash_today": {
+      "type": "string",
+      "title": "Cash Today"
+     }
+    },
+    "type": "object",
+    "required": [
+     "window_end",
+     "withdrawals",
+     "czk_cash",
+     "fx_allowance",
+     "earmark",
+     "nav",
+     "investable",
+     "cash_target_pct",
+     "target_cash",
+     "required_cash",
+     "cash_today"
+    ],
+    "title": "ReserveBridge",
+    "description": "How today's cash requirement is built (doc 09 §3 „reserve bridge“), all values from the engine."
+   },
+   "ResidualOut": {
+    "properties": {
+     "date": {
+      "type": "string",
+      "format": "date",
+      "title": "Date"
+     },
+     "scope": {
+      "type": "string",
+      "title": "Scope"
+     },
+     "measure": {
+      "type": "string",
+      "title": "Measure"
+     },
+     "deviation": {
+      "type": "string",
+      "title": "Deviation"
+     }
+    },
+    "type": "object",
+    "required": [
+     "date",
+     "scope",
+     "measure",
+     "deviation"
+    ],
+    "title": "ResidualOut"
+   },
+   "Snapshot": {
+    "properties": {
+     "model_version": {
+      "type": "string",
+      "title": "Model Version"
+     },
+     "dataset": {
+      "$ref": "#/components/schemas/Dataset-Output"
+     },
+     "policies": {
+      "additionalProperties": {
+       "$ref": "#/components/schemas/Policy-Output"
+      },
+      "type": "object",
+      "title": "Policies"
+     },
+     "issues": {
+      "items": {
+       "$ref": "#/components/schemas/Issue"
+      },
+      "type": "array",
+      "title": "Issues"
+     },
+     "result": {
+      "$ref": "#/components/schemas/EvaluationResult"
+     },
+     "demo": {
+      "type": "boolean",
+      "title": "Demo"
+     }
+    },
+    "type": "object",
+    "required": [
+     "model_version",
+     "dataset",
+     "policies",
+     "issues",
+     "result",
+     "demo"
+    ],
+    "title": "Snapshot",
+    "description": "Dataset + policies + result: what the UI holds in memory (no server state)."
+   },
+   "StepBrief": {
+    "properties": {
+     "date": {
+      "type": "string",
+      "format": "date",
+      "title": "Date"
+     },
+     "kind": {
+      "type": "string",
+      "title": "Kind"
+     },
+     "reason": {
+      "type": "string",
+      "title": "Reason"
+     },
+     "orders": {
+      "items": {
+       "$ref": "#/components/schemas/OrderBrief"
+      },
+      "type": "array",
+      "title": "Orders"
+     }
+    },
+    "type": "object",
+    "required": [
+     "date",
+     "kind",
+     "reason",
+     "orders"
+    ],
+    "title": "StepBrief"
+   },
+   "StepOut": {
+    "properties": {
+     "date": {
+      "type": "string",
+      "format": "date",
+      "title": "Date"
+     },
+     "kind": {
+      "type": "string",
+      "title": "Kind"
+     },
+     "reason": {
+      "type": "string",
+      "title": "Reason"
+     },
+     "mode": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Mode"
+     },
+     "nav": {
+      "type": "string",
+      "title": "Nav"
+     },
+     "earmark": {
+      "type": "string",
+      "title": "Earmark"
+     },
+     "basis": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Basis"
+     },
+     "destinations": {
+      "anyOf": [
+       {
+        "additionalProperties": {
+         "type": "string"
+        },
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Destinations"
+     },
+     "amount": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Amount"
+     }
+    },
+    "type": "object",
+    "required": [
+     "date",
+     "kind",
+     "reason",
+     "mode",
+     "nav",
+     "earmark",
+     "basis",
+     "destinations",
+     "amount"
+    ],
+    "title": "StepOut"
+   },
+   "StressOut": {
+    "properties": {
+     "drop": {
+      "type": "string",
+      "title": "Drop"
+     },
+     "loss": {
+      "type": "string",
+      "title": "Loss"
+     },
+     "loss_pct": {
+      "type": "string",
+      "title": "Loss Pct"
+     },
+     "target_loss": {
+      "type": "string",
+      "title": "Target Loss"
+     },
+     "target_pct": {
+      "type": "string",
+      "title": "Target Pct"
+     },
+     "after_pct": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "After Pct"
+     },
+     "after_date": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "After Date"
+     }
+    },
+    "type": "object",
+    "required": [
+     "drop",
+     "loss",
+     "loss_pct",
+     "target_loss",
+     "target_pct",
+     "after_pct",
+     "after_date"
+    ],
+    "title": "StressOut",
+    "description": "Illustrative equity drawdown: loss in CZK and % of NAV today, at the target allocation and after the plan."
+   },
+   "Summary": {
+    "properties": {
+     "today": {
+      "items": {
+       "$ref": "#/components/schemas/OrderBrief"
+      },
+      "type": "array",
+      "title": "Today"
+     },
+     "later": {
+      "items": {
+       "$ref": "#/components/schemas/StepBrief"
+      },
+      "type": "array",
+      "title": "Later"
+     },
+     "key_date": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Key Date"
+     },
+     "key_date_kind": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Key Date Kind"
+     },
+     "reason": {
+      "$ref": "#/components/schemas/Explanation"
+     }
+    },
+    "type": "object",
+    "required": [
+     "today",
+     "later",
+     "key_date",
+     "key_date_kind",
+     "reason"
+    ],
+    "title": "Summary",
+    "description": "What to do and why, in one line — chosen by fixed rules from the evaluation."
+   },
+   "Tag": {
+    "properties": {
+     "kind": {
+      "type": "string",
+      "title": "Kind"
+     },
+     "code": {
+      "type": "string",
+      "title": "Code"
+     },
+     "params": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "type": "object",
+      "title": "Params"
+     }
+    },
+    "type": "object",
+    "required": [
+     "kind",
+     "code"
+    ],
+    "title": "Tag",
+    "description": "Short reason attached to an order or a decision: a rule code plus its numbers.\n\nkind: reason (why the order exists) | info (cost or condition) | warning (check before trading)."
+   },
+   "TriggerOut": {
+    "properties": {
+     "rule": {
+      "type": "string",
+      "title": "Rule"
+     },
+     "scope": {
+      "type": "string",
+      "title": "Scope"
+     },
+     "measure": {
+      "type": "string",
+      "title": "Measure"
+     },
+     "date": {
+      "type": "string",
+      "format": "date",
+      "title": "Date"
+     },
+     "deviation": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Deviation"
+     },
+     "band": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Band"
+     },
+     "amount": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Amount"
+     },
+     "excess": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Excess"
+     },
+     "excess_czk": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Excess Czk"
+     }
+    },
+    "type": "object",
+    "required": [
+     "rule",
+     "scope",
+     "measure",
+     "date",
+     "deviation",
+     "band"
+    ],
+    "title": "TriggerOut"
+   },
+   "UncertaintyOut": {
+    "properties": {
+     "scenario": {
+      "type": "string",
+      "title": "Scenario"
+     },
+     "recommended": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Recommended"
+     },
+     "outcome": {
+      "type": "string",
+      "title": "Outcome"
+     },
+     "changed": {
+      "type": "boolean",
+      "title": "Changed"
+     }
+    },
+    "type": "object",
+    "required": [
+     "scenario",
+     "recommended",
+     "outcome",
+     "changed"
+    ],
+    "title": "UncertaintyOut"
+   },
+   "ValidationError": {
+    "properties": {
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Location"
+     },
+     "msg": {
+      "type": "string",
+      "title": "Message"
+     },
+     "type": {
+      "type": "string",
+      "title": "Error Type"
+     },
+     "input": {
+      "title": "Input"
+     },
+     "ctx": {
+      "type": "object",
+      "title": "Context"
+     }
+    },
+    "type": "object",
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError"
+   },
+   "Valuation": {
+    "properties": {
+     "nav": {
+      "type": "string",
+      "title": "Nav"
+     },
+     "securities": {
+      "type": "string",
+      "title": "Securities"
+     },
+     "cash_czk": {
+      "type": "string",
+      "title": "Cash Czk"
+     },
+     "components": {
+      "items": {
+       "$ref": "#/components/schemas/Component"
+      },
+      "type": "array",
+      "title": "Components"
+     },
+     "equity": {
+      "$ref": "#/components/schemas/Component"
+     },
+     "max_abs_deviation": {
+      "type": "string",
+      "title": "Max Abs Deviation"
+     },
+     "cash": {
+      "items": {
+       "$ref": "#/components/schemas/CashLine"
+      },
+      "type": "array",
+      "title": "Cash"
+     },
+     "lots": {
+      "items": {
+       "$ref": "#/components/schemas/LotView"
+      },
+      "type": "array",
+      "title": "Lots"
+     },
+     "flows": {
+      "items": {
+       "$ref": "#/components/schemas/FlowView"
+      },
+      "type": "array",
+      "title": "Flows"
+     },
+     "first_negative_czk": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "First Negative Czk"
+     }
+    },
+    "type": "object",
+    "required": [
+     "nav",
+     "securities",
+     "cash_czk",
+     "components",
+     "equity",
+     "max_abs_deviation",
+     "cash",
+     "lots",
+     "flows",
+     "first_negative_czk"
+    ],
+    "title": "Valuation"
+   },
+   "WaitTestOut": {
+    "properties": {
+     "days": {
+      "type": "integer",
+      "title": "Days"
+     },
+     "max_days": {
+      "type": "integer",
+      "title": "Max Days"
+     },
+     "max_deviation": {
+      "type": "string",
+      "title": "Max Deviation"
+     },
+     "deviation_cap": {
+      "type": "string",
+      "title": "Deviation Cap"
+     },
+     "saving": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Saving"
+     },
+     "saving_high_tax": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Saving High Tax"
+     },
+     "min_saving": {
+      "type": "string",
+      "title": "Min Saving"
+     },
+     "passed": {
+      "type": "boolean",
+      "title": "Passed"
+     },
+     "compared_with": {
+      "type": "string",
+      "title": "Compared With"
+     }
+    },
+    "type": "object",
+    "required": [
+     "days",
+     "max_days",
+     "max_deviation",
+     "deviation_cap",
+     "saving",
+     "saving_high_tax",
+     "min_saving",
+     "passed",
+     "compared_with"
+    ],
+    "title": "WaitTestOut"
+   }
+  }
+ }
+}
