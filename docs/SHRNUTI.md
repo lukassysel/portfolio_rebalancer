@@ -1,73 +1,83 @@
 # Výstup pro data zadání: co se má u pěti klientů stát a proč
 
-Data zadání, ocenění k 23. 10. 2026. Všechna čísla níže vypočítal engine; stejná pravidla platí pro každého klienta.
-Pravidla: [`METODIKA.md`](METODIKA.md). Úplný výpis obchodů, hotovosti po dnech a všech kontrol je v aplikaci u každého klienta.
+Ocenění k 23. 10. 2026. Všechna čísla spočítal nástroj z dat zadání. Pravidla, podle kterých rozhoduje, jsou popsaná
+v [`METODIKA.md`](METODIKA.md); tady je jen to, jak dopadl každý klient.
 
-## Pět klientů
+| Klient | Co udělat | Kdy | Náklady |
+|---|---|---|---|
+| A | prodat část VWCE, dokoupit EUNA | dnes, zbytek po vkladu 10. 11. | 5 538 Kč |
+| B | prodat na výběry, které se blíží | nejpozději 12. 1. 2027 | 10 856 Kč |
+| C | nic | další kontrola 23. 11. 2026 | 0 Kč |
+| D | investovat nevyužitou hotovost | dnes, zbytek po vkladu 15. 2. 2027 | 46 566 Kč |
+| E | počkat na osvobození od daně | 23. 11. 2026 | 8 462 Kč |
 
-**Klient A – Provést nyní (náklady 5 537,89 Kč, daň 0).** VWCE tvoří 70,82 % majetku při cíli 60 % a pásmu 55–65 %,
-EUNA 9,51 % při cíli 20 % (pásmo 15–25 %), akcie celkem 89,61 % při pásmu 75–85 %. Dnes prodat 174 VWCE z lotu
-z roku 2021 (časový test splněn, daň 0) a koupit 5 350 EUNA; po vkladu 600 000 Kč 10. 11. podmíněně dokoupit 5 299 EUNA.
-Čekání na vklad engine zamítl: úspora by byla jen 100,34 Kč (požadováno aspoň 10 000 Kč). Částečná varianta vyhrála
-nad variantou „na cíl“ nižšími náklady (5 537,89 proti 6 244,82 Kč).
+## Klient A – provést nyní
 
-**Klient B – Zajistit likviditu do 12. 1. 2027 (10 855,93 Kč, daň 0).** Z celého majetku jsou instrumenty v pásmech,
-po odečtení rezervy na výběry je ale VWCE o 7,09 p. b. nad cílem (pásmo ±5) a hotovosti je málo. Plánované výběry (měsíční renty a 1 500 000 Kč 15. 1. 2027) bez obchodů nejsou kryté – na lednový výběr by chybělo
-1 015 868,15 Kč. Povinná rezerva na výběry do 90 dnů je 1 760 603,02 Kč, potřebná hotovost celkem 2 665 538,71 Kč
-(dnes 739 630 Kč). Dnes prodat 350 VWCE a 5 377 EUNA z osvobozených lotů na čtyři výběry do 15. 1. 2027
-(1 755 000 Kč); 1. 12. podmíněně doprodat 49 VWCE, 1 691 EUNA a 18 IGLN na renty 1. 2. a 1. 3. 2027 a doplnění
-hotovosti. Prodat to už dnes by hotovost dostalo nad pásmo (cíl 5 % ± 1,25 p. b.), proto až v době, kdy se
-renty přiblíží na 90 dnů.
+**Co jsme zjistili.** Klient má moc akcií VWCE (70,82 % při cíli 60 % a hranici 65 %) a málo dluhopisů EUNA (9,51 %
+při cíli 20 %). Akcie celkem jsou 89,61 % místo 80 %, tedy mimo pásmo.
 
-**Klient C – Bez zásahu (0 Kč).** Největší odchylka 0,48 p. b., od nejbližší hranice pásma zbývá 2,14 p. b.; žádné
-plánované toky. Obchod by stál peníze a nic nezlepšil. Další kontrola 23. 11. 2026.
+**Co navrhujeme.** Dnes prodat 174 ks VWCE a koupit 5 350 ks EUNA. Po vkladu 600 000 Kč 10. 11. dokoupit 5 299 ks EUNA.
 
-**Klient D (s.r.o.) – Provést nyní (46 565,73 Kč).** Hotovost tvoří 42,61 % majetku při cíli 0 % (tolerance 5 %) –
-peníze převedené firmou leží nevyužité. Dnes koupit 721 VWCE, 2 042 AVWS a 11 546 EUNA; po únorovém převodu
-3 000 000 Kč podmíněně dokoupit 520 VWCE a 8 101 EUNA. Na účtu zůstane minimální hotovost (0,5 % majetku). Čekat
-na únorový vklad nelze – je za 115 dnů (limit 45). Náklady tvoří hlavně převod Kč na EUR (35 873,73 Kč). Daň 0 – nic se neprodává.
+**Proč.** Prodávané kusy VWCE jsou z roku 2021, takže jsou osvobozené od daně. Díky vkladu stačí dnes prodat méně:
+VWCE klesne těsně pod hranici (64,96 %) a po vkladu samo na 61,4 %. Počkat jen na vklad nejde – 600 000 Kč nestačí,
+VWCE by zůstalo nad hranicí (66,9 %) a čekání by ušetřilo jen 100 Kč. Návrat až na cíl by stál víc (6 245 Kč).
 
-**Klient E – Vyčkat do 23. 11. 2026 (8 461,80 Kč místo 83 449,31 Kč).** VWCE 57,03 % při cíli 45 %, EUNA a IGLN
-pod pásmem. Prodej nyní by zasáhl lot VWCE z 20. 11. 2023, který ještě nesplňuje tříletý časový test – odhad daně
-74 987,51 Kč. Lot je osvobozen od 23. 11. 2026 (předpoklad: datum nabytí = vypořádání nákupu 22. 11. 2023, ověřit
-u brokera). Test čekání splněn: 31 dnů (limit 45), odchylka během čekání nejvýš 11,40 p. b. (limit 15), úspora
-74 987,51 Kč (minimum 11 050,21 Kč; i při dani 23 %). Dnes jen prodat 90 VWCE z osvobozeného lotu na prosincový
-výběr 250 000 Kč a minimální hotovost; 23. 11. prodat 562 VWCE a koupit 15 318 EUNA a 88 IGLN.
+## Klient B – zajistit peníze na výběry
 
-## Co pravidla přinášejí oproti jednoduchému pravidlu
+**Co jsme zjistili.** Z celého majetku vypadá portfolio v pořádku. Klient si ale vybírá rentu 85 000 Kč měsíčně
+a 15. 1. 2027 jednorázově 1 500 000 Kč. Hotovost na to nestačí – v lednu by chybělo 1 015 868 Kč. Když odečteme
+peníze na výběry do 90 dní (1 760 603 Kč), je VWCE o 7,09 p. b. nad cílem.
 
-Jednoduché pravidlo: když je dnes některá složka mimo pásmo (z celého majetku), vrátit hned všechno na cíl; jinak nic.
-Počítá se stejným výpočtem (ceny, poplatky, daně, hotovost i rezerva na výběry), liší se jen rozhodnutím. Jde
-o modelové náklady, ne zaručenou úsporu.
+**Co navrhujeme.** Dnes prodat 350 ks VWCE a 5 377 ks EUNA. Až se přiblíží únorová a březnová renta, 1. 12. doprodat
+49 ks VWCE, 1 691 ks EUNA a 18 ks IGLN.
 
-| Klient | Jednoduché pravidlo | Doporučení | Rozdíl | V čem se liší |
-|---|---|---|---|---|
-| A | nyní na cíl, 4 pokyny, 6 244,82 Kč | nyní částečně, 3 pokyny, 5 537,89 Kč | 706,94 Kč | vrací složky na okraj pásma, ne až na cíl |
-| B | nyní na cíl, 6 pokynů, 11 268,54 Kč | nyní částečně, 5 pokynů, 10 855,93 Kč | 412,61 Kč | VWCE a akcie celkem jsou mimo pásmo jen po odečtení rezervy na výběry |
-| C | bez obchodů, 0 Kč | bez obchodů, 0 Kč | – | stejný výsledek |
-| D | nyní na cíl, 6 pokynů, 48 333,06 Kč | nyní částečně, 5 pokynů, 46 565,73 Kč | 1 767,33 Kč | vrací složky na okraj pásma |
-| E | nyní na cíl, 4 pokyny, 110 633,73 Kč | po časovém testu částečně, 4 pokyny, 8 461,80 Kč | 102 171,93 Kč | čeká 31 dnů na osvobození od daně; odchylka mezitím nejvýš 11,40 p. b. |
-| **Celkem** | **20 pokynů, 176 480 Kč** | **17 pokynů, 71 421 Kč** | **105 059 Kč** | |
+**Proč.** Peníze musí být na účtu včas: kvůli vypořádání je poslední den pro prodej 12. 1. 2027. Prodává se hlavně VWCE,
+kterého je po odečtení výběrů nejvíc navíc. Všechny prodávané kusy jsou osvobozené, daň je 0. Prodat všechno už dnes
+by zbytečně drželo peníze mimo investice, proto se zbytek prodá až 1. 12. Náklady jsou hlavně převod EUR na Kč.
 
-Většinu rozdílu tvoří čekání u E. Cena za něj je otevřeně uvedená: měsíc s akciemi nad pásmem.
+## Klient C – bez zásahu
 
-**Co odchylka znamená (příklady z aplikace).** U A je VWCE o 10,82 p. b. nad cílem, ale za hranicí pásma jen o 5,82 p. b.
-(asi 597 706 Kč). Při poklesu akcií o 20 % by A ztratil asi 1 840 142 Kč (17,92 % majetku) proti 16,00 % při cílové
-alokaci; po návrhu 15,83 %. U D leží 37,61 p. b. nad tolerancí, asi 3 971 973 Kč, jako nevyužitá hotovost. U B je
-z celého majetku vše skoro v pořádku; mimo pásmo je portfolio až po odečtení peněz na výběry v příštích 90 dnech.
+**Co jsme zjistili.** Největší odchylka je 0,48 p. b., do nejbližší hranice pásma zbývají 2,14 p. b. Klient nemá
+žádné plánované vklady ani výběry.
 
-## Jak engine funguje
+**Co navrhujeme.** Nic. Obchod by stál peníze a nic by nezlepšil. Další kontrola s novými daty 23. 11. 2026.
 
-1. **Ocení** každého klienta: kusy × cena × kurz, váhy z celkového majetku včetně hotovosti.
-2. **Porovná** každou složku s tolerančním pásmem (užší z ±5 p. b. a ±25 % cíle; akcie celkem ±5 p. b.) – dnes
-   i po odečtení rezervy na výběry do 90 dnů.
-3. **Ověří hotovost** po dnech: vypořádání T+2, převod měn +1 pracovní den, hotovost nikdy pod nulou, vklad až po připsání;
-   když se obchoduje, zůstane v Kč minimální hotovost (0,5 % majetku, aspoň 10 000 Kč).
-4. **Vytvoří varianty**: bez obchodů; nyní – částečně (na cíl ± polovinu pásma) nebo až na cíl; počkat na vklad;
-   počkat na osvobození od daně. Každou simuluje celým plánem do konce šestiměsíčního horizontu.
-5. **Spočítá náklady** každé varianty: poplatek 0,15 % (min. 10 EUR/USD), převod měn 0,5 %, daň FO 15 % podle lotů FIFO.
-6. **Vybere** variantu: proveditelná → drží pásma → nejlevnější → méně pokynů → menší objem → dřívější. Čekání jen
-   do 45 dnů, s odchylkou do 15 p. b. a úsporou aspoň max(10 000 Kč; 0,05 % majetku). Ověří citlivost (daň 23 %,
-   jiný výklad časového testu); kdyby se doporučení změnilo, stav je „Posoudit“.
-7. **Zapíše zdůvodnění**: ke každému pokynu štítky s pravidlem a čísly (pásmo, výběr, vklad, daň), k rozhodnutí
-   jeden řádek „Důvod“; úplný záznam všech kontrol a variant je v aplikaci sbalený pod „Záznam rozhodnutí“.
+## Klient D (s.r.o.) – provést nyní
+
+**Co jsme zjistili.** Firma převedla peníze a ty leží na účtu: hotovost je 42,61 % majetku při cíli 0 %, asi
+3,97 mil. Kč nad tolerancí. Akcií je proto jen 39,85 % místo 70 %.
+
+**Co navrhujeme.** Dnes koupit 721 ks VWCE, 2 042 ks AVWS a 11 546 ks EUNA. Po únorovém převodu 3 000 000 Kč
+(15. 2. 2027) dokoupit 520 ks VWCE a 8 101 ks EUNA.
+
+**Proč.** Peníze nevydělávají podle strategie klienta. Čekat na únorový převod nemá smysl – je za 115 dní a do té doby
+by peníze ležely ladem. Nic se neprodává, takže daň nevzniká. Náklady jsou hlavně převod Kč na EUR (35 874 Kč).
+
+## Klient E – počkat do 23. 11. 2026
+
+**Co jsme zjistili.** VWCE je 57,03 % při cíli 45 %, dluhopisů EUNA a zlata IGLN je málo. Mimo pásmo jsou všechny tři.
+Klient si 15. 12. vybere 250 000 Kč.
+
+**Co navrhujeme.** Dnes jen prodat 90 ks VWCE na prosincový výběr. 23. 11. prodat 562 ks VWCE a koupit 15 318 ks EUNA
+a 88 ks IGLN.
+
+**Proč.** Prodej VWCE dnes by sáhl na nákup z 20. 11. 2023, který ještě nesplnil tříletý časový test – daň by byla
+asi 74 988 Kč. Od 23. 11. 2026 je tento nákup osvobozený (datum je potřeba ověřit u brokera). Počkat se vyplatí:
+je to 31 dní, odchylka mezitím nepřekročí 11,40 p. b. a úspora vyjde i při dani 23 %. Dnešních 90 ks je z osvobozeného
+nákupu z roku 2020. Celkem 8 462 Kč místo 83 449 Kč při obchodu hned. Cena za to je měsíc s akciemi nad pásmem.
+
+## Srovnání s jednoduchým pravidlem
+
+Kdybychom při jakékoli odchylce mimo pásmo hned vrátili všechno na cíl:
+
+| Klient | Jednoduché pravidlo | Náš návrh | Rozdíl |
+|---|---|---|---|
+| A | 6 245 Kč | 5 538 Kč | 707 Kč |
+| B | 11 269 Kč | 10 856 Kč | 413 Kč |
+| C | 0 Kč | 0 Kč | – |
+| D | 48 333 Kč | 46 566 Kč | 1 767 Kč |
+| E | 110 634 Kč | 8 462 Kč | 102 172 Kč |
+| **Celkem** | **176 480 Kč, 20 pokynů** | **71 421 Kč, 17 pokynů** | **105 059 Kč** |
+
+Většinu rozdílu dělá čekání u klienta E. Jsou to modelové náklady při dnešních cenách, ne zaručená úspora. Úplný
+výpis pokynů, hotovosti po dnech a všech kontrol je v aplikaci u každého klienta.
